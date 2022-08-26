@@ -53,7 +53,7 @@ module.exports = {
             phrase: mnemonic,
           },
           providerOrUrl: 'https://rpc-mumbai.maticvigil.com',
-          pollingInterval: 8000,
+          pollingInterval: 15000,
         }),
       network_id: 80001,
       gas: 5500000,
@@ -91,7 +91,7 @@ module.exports = {
 
   // Set default mocha options here, use special reporters etc.
   mocha: {
-    // timeout: 100000
+     timeout: 100000
   },
 
   // Configure your compilers
@@ -104,7 +104,7 @@ module.exports = {
          enabled: false,
          runs: 200
        },
-       // evmVersion: "byzantium"
+        evmVersion: "istanbul"
       }
     }
   },

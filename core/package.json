@@ -6,12 +6,20 @@
   "directories": {
     "test": "test"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "Rakesh",
   "license": "ISC",
+  "devDependencies": {
+    "@types/chai": "^4.2.6",
+    "@types/mocha": "^5.2.7",
+    "chai": "^4.2.0",
+    "ethereum-waffle": "^2.4.1",
+    "ethereumjs-util": "^6.2.0",
+    "mocha": "^6.2.2"
+  },
   "dependencies": {
     "@truffle/hdwallet-provider": "^2.0.14"
+  },
+  "scripts": {
+    "test": "mocha"
   }
 }
