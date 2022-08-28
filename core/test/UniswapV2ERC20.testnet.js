@@ -93,7 +93,6 @@ describe('UniswapV2ERC20', () => {
   it('transferFrom:max', async () => {
     let tx = await token.approve(secondAccount.address, MaxUint256)
     receipt = await tx.wait()
-    console.log("Approved succes");
     tx = await token.connect(secondAccount).transferFrom(account.address, secondAccount.address, TEST_AMOUNT)
     receipt = await tx.wait()
     expect(receipt.events[0].event).to.eq('Transfer');

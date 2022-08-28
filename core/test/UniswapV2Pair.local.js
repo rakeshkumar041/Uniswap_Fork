@@ -81,38 +81,8 @@ describe('UniswapV2Pair', () => {
   swapTestCases.forEach((swapTestCase, i) => {
     it(`getInputPrice:${i}`, async () => {
       const [swapAmount, token0Amount, token1Amount, expectedOutputAmount] = swapTestCase
-      //
-      console.log("token0Amount",token0Amount.toString())
-     console.log("token1Amount",token1Amount.toString())
-     console.log("swapAmount",swapAmount.toString())
-     console.log("expectedOutputAmount",expectedOutputAmount.toString())
-     //--
-     let balanceOfAccount = await pair.balanceOf(wallet.address)
-     console.log("balanceOfAccount",balanceOfAccount.toString())
-     let token0balance = await token0.balanceOf(pair.address)
-     console.log("token0balance",token0balance.toString())
-     let token1balance = await token1.balanceOf(pair.address)
-     console.log("token0balance",token1balance.toString())
-     let totalSupplybefore = await pair.totalSupply()
-     console.log("totalSupplybefore",totalSupplybefore.toString())
-     let reservesbefore = await pair.getReserves()
-     console.log("reservesbefore[0]",reservesbefore[0].toString())
-     console.log("reservesbefore[1]",reservesbefore[1].toString())
-     //
       await addLiquidity(token0Amount, token1Amount)
       await token0.transfer(pair.address, swapAmount)
-
-      let reserves = await pair.getReserves()
-     console.log("reserves[0]",reserves[0].toString())
-     console.log("reserves[1]",reserves[1].toString())
-     let totalSupply = await pair.totalSupply()
-     let aftertoken0balance = await token0.balanceOf(pair.address)
-     console.log("aftertoken0balance",aftertoken0balance.toString())
-     let aftertoken1balance = await token1.balanceOf(pair.address)
-     console.log("aftertoken1balance",aftertoken1balance.toString())
-     console.log("totalSupply",totalSupply.toString())
-     let sentbalanceOfAccount = await pair.balanceOf(wallet.address)
-     console.log("sentbalanceOfAccount",sentbalanceOfAccount.toString())
 
       await expect(pair.swap(0, expectedOutputAmount.add(1), wallet.address, '0x', overrides)).to.be.revertedWith(
         'UniswapV2: K'

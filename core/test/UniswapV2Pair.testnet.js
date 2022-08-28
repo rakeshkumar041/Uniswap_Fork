@@ -19,8 +19,7 @@ const overrides = {
 }
 
 describe('UniswapV2PairTest', () => {
- const provider = new ethers.providers.JsonRpcProvider(`http://localhost:9545`)
- //const provider = new ethers.providers.JsonRpcProvider(`https://rpc-mumbai.maticvigil.com`)
+ const provider = new ethers.providers.JsonRpcProvider(`https://rpc-mumbai.maticvigil.com`)
  const wallet = ethers.Wallet.fromMnemonic(MNEMONIC);
  const account = wallet.connect(provider);
  const secondWallet = ethers.Wallet.fromMnemonic(MNEMONIC, `m/44'/60'/0'/0/1`);
@@ -86,14 +85,14 @@ describe('UniswapV2PairTest', () => {
   
  }
  const swapTestCases = [
-  /* [1, 5, 10, '1662497915624478906'],
+   [1, 5, 10, '1662497915624478906'],
    [1, 10, 5, '453305446940074565'],
 
    [2, 5, 10, '2851015155847869602'],
    [2, 10, 5, '831248957812239453'],
 
    [1, 10, 10, '906610893880149131'],
-   [1, 100, 100, '987158034397061298'],*/
+   [1, 100, 100, '987158034397061298'],
    [1, 1000, 1000, '996006981039903216']
  ].map(a => a.map(n => (typeof n === 'string' ? bigNumberify(n) : expandTo18Decimals(n))))
  swapTestCases.forEach((swapTestCase, i) => {
@@ -132,8 +131,8 @@ describe('UniswapV2PairTest', () => {
    const expectedOutputAmount = bigNumberify('1662497915624478906')
    let tx = await token0.transfer(pair.address, swapAmount)
    await tx.wait()
-   tx = await pair.swap(0, expectedOutputAmount, account.address, '0x', overrides)
-   const receipt = await tx.wait()
+   let swapTx = await pair.swap(0, expectedOutputAmount, account.address, '0x', overrides)
+   const receipt = await swapTx.wait()
    expect(receipt.events[0].event).to.eq('Transfer')
    expect(receipt.events[1].event).to.eq('Sync')
    expect(receipt.events[2].event).to.eq('Swap')
@@ -202,6 +201,7 @@ describe('UniswapV2PairTest', () => {
 
    tx = await pair.burn(account.address, overrides)
    const receipt = await tx.wait()
+
    expect(receipt.events[0].event).to.eq('Transfer')
    expect(receipt.events[1].event).to.eq('Transfer')
    expect(receipt.events[2].event).to.eq('Transfer')
@@ -249,16 +249,16 @@ describe('UniswapV2PairTest', () => {
 
    const swapAmount = expandTo18Decimals(1)
    const expectedOutputAmount = bigNumberify('996006981039903216')
-   tx = await token1.transfer(pair.address, swapAmount)
-   await tx.wait()
-   tx = await pair.swap(expectedOutputAmount, 0, account.address, '0x', overrides)
-   await tx.wait()
+   let token1Tx = await token1.transfer(pair.address, swapAmount)
+   await token1Tx.wait()
+   let token2Tx = await pair.swap(expectedOutputAmount, 0, account.address, '0x', overrides)
+   await token2Tx.wait()
 
    const expectedLiquidity = expandTo18Decimals(1000)
-   tx = await pair.transfer(pair.address, expectedLiquidity.sub(MINIMUM_LIQUIDITY))
-   await tx.wait()
-   tx = await pair.burn(account.address, overrides)
-   await tx.wait()
+   let transferTx = await pair.transfer(pair.address, expectedLiquidity.sub(MINIMUM_LIQUIDITY))
+   await transferTx.wait()
+   let burnTx = await pair.burn(account.address, overrides)
+   await burnTx.wait()
    expect(await pair.totalSupply()).to.eq(MINIMUM_LIQUIDITY.add('249750499251388'))
    expect(await pair.balanceOf(secondAccount.address)).to.eq('249750499251388')
 

@@ -58,7 +58,7 @@ module.exports = {
       network_id: 80001,
       gas: 5500000,
       gasPrice: 40000000000,
-      confirmations: 2,
+      confirmations: 1,
       timeoutBlocks: 200,
       skipDryRun: true
     },
@@ -91,7 +91,7 @@ module.exports = {
 
   // Set default mocha options here, use special reporters etc.
   mocha: {
-     timeout: 100000
+     timeout: 150000
   },
 
   // Configure your compilers

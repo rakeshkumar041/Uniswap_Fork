@@ -1,1 +1,7 @@
 .secret
+core/build/
+core/node_modules
+periphery/build/
+periphery/node_modules
+Token/build/
+Token/node_modules
